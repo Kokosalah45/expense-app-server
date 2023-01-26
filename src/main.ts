@@ -6,9 +6,9 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { DocumentBuilder } from '@nestjs/swagger/dist';
 import { ZodValidationPipe } from 'nestjs-zod';
 import * as dotenv from 'dotenv';
-dotenv.config();
 
 async function bootstrap() {
+  dotenv.config();
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ZodValidationPipe());
   app.setGlobalPrefix('api');
