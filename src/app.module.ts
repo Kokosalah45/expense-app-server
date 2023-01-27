@@ -3,6 +3,8 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RouterModule } from '@nestjs/core';
 import { ExpenseReportsModule } from './expense-reports/expense-reports.module';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { ExpenseReportsModule } from './expense-reports/expense-reports.module';
         ],
       },
     ]),
+    AuthModule,
   ],
+  providers: [AuthService],
 })
 export class AppModule {}

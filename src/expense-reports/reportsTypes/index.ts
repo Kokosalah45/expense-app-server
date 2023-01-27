@@ -1,9 +1,9 @@
 import { z } from 'nestjs-zod/z';
 import { createZodDto } from 'nestjs-zod';
 
-const reportTypeEnumSchemaOptional = z.enum(['income', 'expense']).optional();
+const reportTypeEnumSchemaOptional = z.enum(['INCOME', 'EXPENSE']).optional();
 
-const reportTypeEnumSchemaRequired = z.enum(['income', 'expense']);
+const reportTypeEnumSchemaRequired = z.enum(['INCOME', 'EXPENSE']);
 
 const reportTypeDtoEnumSchemaOptional = z.object({
   reportType: reportTypeEnumSchemaOptional,

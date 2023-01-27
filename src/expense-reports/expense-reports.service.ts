@@ -2,11 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { report, reportTypeOptional } from 'src/expense-reports/reportsTypes';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-enum reportTypeMap {
-  income = 'INCOME',
-  expense = 'EXPENSE',
-}
-
 @Injectable()
 export class ExpenseReportsService {
   constructor(private prisma: PrismaService) {}
@@ -15,7 +10,7 @@ export class ExpenseReportsService {
       return await this.prisma.expense.findMany({
         where: {
           userId,
-          type: type ? reportTypeMap[type] : undefined,
+          type,
         },
         select: {
           source: true,
@@ -35,10 +30,9 @@ export class ExpenseReportsService {
 
   //     return report ? report : null;
   //   }
-  async create(reportData: report) {
-    const { type, ...rest } = reportData;
+  async create(data: report) {
     await this.prisma.expense.create({
-      data: { type: reportTypeMap[type], ...rest },
+      data,
     });
   }
   //   updateReport(source: string, data: reportType) {

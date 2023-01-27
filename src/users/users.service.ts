@@ -1,24 +1,36 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { userRegisterType } from './user-types';
-
-enum reportTypeMap {
-  income = 'INCOME',
-  expense = 'EXPENSE',
-}
+import {
+  updateAdminType,
+  updateUserType,
+  userRegisterType,
+} from './user-types';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
   async findAll() {
     return await this.prisma.user.findMany({
-      select: { id: true, email: true, name: true },
+      select: {
+        id: true,
+        email: true,
+        firstname: true,
+        lastname: true,
+        username: true,
+      },
     });
   }
-  async findOne(id: string) {
+  async findOne(username: string, includePassword = false) {
     const user = await this.prisma.user.findUnique({
-      where: { id },
-      select: { name: true, email: true, id: true },
+      where: { username },
+      select: {
+        firstname: true,
+        lastname: true,
+        username: true,
+        email: true,
+        id: true,
+        password: includePassword,
+      },
     });
 
     return user;
@@ -28,9 +40,10 @@ export class UsersService {
       data,
     });
   }
-  async update(data: userRegisterType) {
+  async update(id: string, data: updateAdminType | updateUserType) {
     await this.prisma.user.update({
-      data,
+      where: { id },
+      data: data,
     });
   }
   async delete(id: string) {
