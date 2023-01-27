@@ -11,25 +11,33 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     PrismaModule,
     ExpenseReportsModule,
+    AuthModule,
     RouterModule.register([
       {
-        path: 'users',
-        module: UsersModule,
+        path: '/',
         children: [
           {
-            path: ':userId',
+            path: 'users',
+            module: UsersModule,
             children: [
               {
-                path: 'expense-reports',
-                module: ExpenseReportsModule,
+                path: ':userId',
+                children: [
+                  {
+                    path: 'expense-reports',
+                    module: ExpenseReportsModule,
+                  },
+                ],
               },
             ],
+          },
+          {
+            path: 'auth',
+            module: AuthModule,
           },
         ],
       },
     ]),
-    AuthModule,
   ],
-  providers: [AuthService],
 })
 export class AppModule {}
