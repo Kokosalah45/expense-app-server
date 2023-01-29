@@ -1,11 +1,10 @@
-import { Injectable, UseGuards } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import {
   updateAdminType,
   updateUserType,
   userRegisterType,
 } from './user-types';
-import { LocalStrategy } from 'src/auth/strategies';
 
 @Injectable()
 export class UsersService {

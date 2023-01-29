@@ -8,22 +8,26 @@ import {
   Param,
   Post,
   Put,
+  Session,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { userRegisterDto } from './user-types';
-
+import { IsAuthenticated } from 'src/auth/guards';
+@UseGuards(IsAuthenticated)
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @HttpCode(HttpStatus.FOUND)
   @Get()
-  async getAllUsers(): Promise<any> {
+  async getAllUsers(@Session() d: any): Promise<any> {
     try {
       const users = await this.usersService.findAll();
       return {
         data: users,
         statusCode: HttpStatus.FOUND,
+        d,
       };
     } catch (e) {
       throw new HttpException(e, HttpStatus.NOT_FOUND);

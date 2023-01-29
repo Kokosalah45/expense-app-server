@@ -3,11 +3,12 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { RouterModule } from '@nestjs/core';
 import { ExpenseReportsModule } from './expense-reports/expense-reports.module';
-import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule.register({ session: true }),
     UsersModule,
     PrismaModule,
     ExpenseReportsModule,
@@ -21,7 +22,7 @@ import { AuthModule } from './auth/auth.module';
             module: UsersModule,
             children: [
               {
-                path: ':userId',
+                path: ':username',
                 children: [
                   {
                     path: 'expense-reports',
